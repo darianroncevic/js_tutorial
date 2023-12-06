@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Weather Application</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div id="weather">
+        <div class="location">
+            <input type="text" id="city" placeholder="Enter your city">
+            <button class="search"><img src="./assets/png/search.png" alt="Search"></button>
+        </div>
+        <div id="weather-info">
+            <img src="./assets/png/drizzle.png" class="weather-icon">
+            <h1 class="temp"></h1>
+            <h2 class="city"></h2>
+            <div class="details">
+                <div class="col">
+                    <img src="./assets/png/humidity.png">
+                    <div>
+                        <p class="humidity"></p>
+                        <p>Humidity</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <img src="./assets/png/wind.png">
+                    <div>
+                        <p class="wind"></p>
+                        <p>Wind Speed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const apiKey = "d4f259fbf60822797c48c0f869888dab"
+    const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q="
+    const city = document.getElementById("city")
+    const searchBtn = document.querySelector(".search")
+    const weatherIcon = document.querySelector(".weather-icon")
+
+    async function checkWeather(city) {
+        const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+        var data = await response.json()
+
+        document.querySelector(".city").innerHTML = data.name
+        document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°C"
+        document.querySelector(".humidity").innerHTML = data.main.humidity + "%"
+        document.querySelector(".wind").innerHTML = data.wind.speed + " km/h"
+
+        if (data.weather[0].main == "Clouds") {
+            weatherIcon.src = "./assets/png/clouds.png"
+        } else if (data.weather[0].main == "Clear") {
+            weatherIcon.src = "./assets/png/clear.png"
+        } else if (data.weather[0].main == "Drizzle") {
+            weatherIcon.src = "./assets/png/drizzle.png"
+        } else if (data.weather[0].main == "Mist") {
+            weatherIcon.src = "./assets/png/mist.png"
+        } else if (data.weather[0].main == "Rain") {
+            weatherIcon.src = "./assets/png/rain.png"
+        } else {
+            weatherIcon.src = "./assets/png/snow.png"
+        }
+    }
+
+    searchBtn.addEventListener("click", () => {
+        checkWeather(city.value)
+    })
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            searchBtn.click()
+        }
+    })
+
+    window.addEventListener("load", () => {
+        checkWeather("Slavonski Brod")
+        document.getElementById("city").innerHTML = ""
+    })
+</script>
+
+</html>

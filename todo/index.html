@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My JavaScript tutorial</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <main>
+        <div id="background">
+            <div id="toDo">
+                <h2>To-Do List <img src="./assets/png/icon.png" alt="List"></h2>
+                <div class="row">
+                    <input id="item" class="input" type="text" placeholder="Add your text">
+                </div>
+                <div class="row">
+                    <input id="desc" class="input" type="text" placeholder="Description (optional)">
+                    <button id="submit" onclick="addTask()">Add</button>
+                </div>
+                <ul id="list-container">
+                </ul>
+            </div>
+        </div>
+    </main>
+    <script src="./script/function.js"></script>
+
+</body>
+<script>
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            document.getElementById("submit").click()
+        }
+    })
+</script>
+
+</html>
